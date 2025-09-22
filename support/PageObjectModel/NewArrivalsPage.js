@@ -27,6 +27,20 @@ class UrbanLadderOasisPage {
 
     cy.scrollTo('bottom');
   }
+
+  checkKeyboardNavigationToOasis() {
+    cy.get('body').tab(); // simulate tab key
+    cy.focused().should('contain.text', 'New Arrivals'); // first tab lands here
+
+    cy.focused().tab(); // tab again to reach Oasis
+    cy.focused().should('contain.text', 'Oasis'); // confirm focus on Oasis
+
+    cy.focused().trigger('keydown', { keyCode: 13 }); // simulate Enter key
+    cy.wait(2000); // allow dropdown to appear
+
+    // Optional: verify dropdown is visible
+    cy.get('.ZDF6_').should('be.visible');
+  }
 }
 
 export default new UrbanLadderOasisPage();
