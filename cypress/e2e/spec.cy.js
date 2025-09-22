@@ -11,7 +11,7 @@ describe(' Urban Ladder Bookshelves Filter Test', () => {
     urbanLadderPage.openPriceFilter();
     urbanLadderPage.setPriceSlider();
     urbanLadderPage.applyFilter();
-    urbanLadderPage.excludeOutOfStock();
+    urbanLadderPage.extractTopProducts();
   });
 });
  

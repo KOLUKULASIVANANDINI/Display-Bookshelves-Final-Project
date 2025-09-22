@@ -49,13 +49,25 @@ class UrbanLadderPage {
     cy.contains('Apply Filter').dblclick({ force: true });
   }
  
-  excludeOutOfStock() {
-    cy.contains("Availability").click({ force: true });
-    cy.get('.UnrgZ').click({ force: true });
-    cy.contains('Apply Filter').click({ force: true });
-    cy.wait(3000);
-  }
+  extractTopProducts(limit = 3, maxPrice = 15000) {
+    cy.get('.MniCX .HOVM7').each(($el, index) => {
+      if (index < limit) {
+        cy.wrap($el).find('.XxwSy').invoke('text').then(name => {
+          cy.wrap($el).find('.XxwSy + div').invoke('text').then(priceText => {
+            const cleaned = priceText.replace(/[^0-9]/g, '');
+            const price = parseFloat(cleaned);
  
+            if (!isNaN(price) && price < maxPrice) {
+              cy.log(`Product ${index + 1}: ${name.trim()} - ₹${price}`);
+            } else {
+              cy.log(`Product ${index + 1} is above ₹${maxPrice} or price not found`);
+            }
+          });
+        });
+      }
+    });
+ 
+}
 }
  
 export default new UrbanLadderPage();
