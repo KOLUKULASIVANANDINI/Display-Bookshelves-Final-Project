@@ -1,8 +1,42 @@
+import { LoginPage } from '../support/PageObjectModel/LoginPage';
+ 
+describe('Urban Ladder Login Validation', () => {
 
-<reference type = "Cypress"/>
+  const baseUrl = 'https://www.urbanladder.com/';
 
-describe('template spec', () => {
-  it('passes', () => {
-    cy.visit('https://www.urbanladder.com/products/search?utf8=%E2%9C%93&keywords=books')
-  })
-})
+  const loginPage = new LoginPage();
+ 
+  Cypress.env('RETRIES', 2);
+
+  Cypress.on('uncaught:exception', () => false);
+ 
+  beforeEach(() => {
+
+    cy.visit(baseUrl);
+
+    cy.clearCookies();
+
+    cy.clearLocalStorage();
+
+    cy.window().then((win) => {
+
+      win.sessionStorage.clear();
+
+    });
+
+  });
+ 
+  it('Displays error for invalid email format', () => {
+
+    loginPage.openLoginModal();
+
+    loginPage.clickSignInButtonIfVisible();
+
+    loginPage.enterDummyCredentials();
+
+    loginPage.verifyErrorMessageVisible();
+
+  });
+
+});
+ 
