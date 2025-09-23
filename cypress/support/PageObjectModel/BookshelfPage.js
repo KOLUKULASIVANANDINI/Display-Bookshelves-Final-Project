@@ -46,7 +46,7 @@ class UrbanLadderPage {
   }
  
   applyFilter() {
-    cy.contains('Apply Filter').dblclick({ force: true });
+   cy.get('.zTzmw').click({ force: true }).wait(2000).click({ force: true });
   }
  
   extractTopProducts(limit = 3, maxPrice = 15000) {
